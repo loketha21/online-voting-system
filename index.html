@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Voting System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .candidate {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #ccc;
+        }
+        .candidate:last-child {
+            border-bottom: none;
+        }
+        button {
+            padding: 8px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1.2em;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Online Voting System</h1>
+        <div id="candidates">
+            <!-- Candidates will be dynamically added here -->
+        </div>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        const candidates = [
+            { id: 1, name: "Candidate A", votes: 0 },
+            { id: 2, name: "Candidate B", votes: 0 },
+            { id: 3, name: "Candidate C", votes: 0 }
+        ];
+
+        const candidatesContainer = document.getElementById('candidates');
+        const resultContainer = document.getElementById('result');
+
+        function renderCandidates() {
+            candidatesContainer.innerHTML = '';
+            candidates.forEach(candidate => {
+                const candidateElement = document.createElement('div');
+                candidateElement.className = 'candidate';
+                candidateElement.innerHTML = `
+                    <span>${candidate.name}</span>
+                    <button onclick="vote(${candidate.id})">Vote</button>
+                `;
+                candidatesContainer.appendChild(candidateElement);
+            });
+        }
+
+        function vote(candidateId) {
+            const candidate = candidates.find(c => c.id === candidateId);
+            if (candidate) {
+                candidate.votes += 1;
+                showResults();
+            }
+        }
+
+        function showResults() {
+            const sortedCandidates = candidates.sort((a, b) => b.votes - a.votes);
+            const leader = sortedCandidates[0];
+            resultContainer.innerText = `Leading: ${leader.name} with ${leader.votes} votes.`;
+        }
+
+        renderCandidates();
+    </script>
+</body>
+</html>
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
